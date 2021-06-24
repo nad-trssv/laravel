@@ -14,5 +14,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+});
+
+Route::get('/hi/{name}', function (string $name) {
+    return "Hello, {$name}";
+});
+
+Route::get('/categories', function () {
+    return "<h1>Категории:</h1> <br><a href='/'>Назад</a>";
+});
+
+Route::get('/goods', function () {
+    return "<h1>Товары:</h1> <br><a href='/'>Назад</a>";
+});
+
+Route::get('/cart', function () {
+    return "<h1>Корзина пуста</h1> <br><a href='/'>Назад</a>";
 });
