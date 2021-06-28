@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+use App\Http\Controllers\GoodsController as GoodsController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\GoodsController as AdminGoodsController;
+use App\Http\Controllers\CategoryController as CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,22 +19,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/** A D M I N  panel*/
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('categories', AdminCategoryController::class);
+    Route::resource('goods', AdminGoodsController::class);
+});
+
+
 Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/hi/{name}', function (string $name) {
-    return "Hello, {$name}";
-});
-
-Route::get('/categories', function () {
-    return "<h1>Категории:</h1> <br><a href='/'>Назад</a>";
-});
-
-Route::get('/goods', function () {
-    return "<h1>Товары:</h1> <br><a href='/'>Назад</a>";
-});
-
+Route::get('/goods', [GoodsController::class, 'index'])
+    ->name('/goods');
+Route::get('/goods/show/{id}', [GoodsController::class, 'show'])
+    ->where('id', '\d+')
+    ->name('goods.show');
+Route::get('/categories', [CategoryController::class, 'index'])
+    ->name('/categories');
 Route::get('/cart', function () {
-    return "<h1>Корзина пуста</h1> <br><a href='/'>Назад</a>";
+    return '<a href="/">Главная</a> <br> Корзина пуста';
 });
+Route::get('categories/show/{id}', [CategoryController::class, 'show'])
+    ->where('id', '\d+')
+    ->name('categories.show');
