@@ -15,7 +15,7 @@ class Controller extends BaseController
     protected array $goods;
     protected array $categories;
 
-    protected function getGoods()
+    protected function getGoods(): array
     {
         $this->getCategories();
         $faker = Factory::create('en_EN');
@@ -27,16 +27,16 @@ class Controller extends BaseController
                 $this->goods[] =
                     [
                         'id' => $idGoods,
-                        'category' => $category['name'],
-                        'title' => "Товар " . $faker->name(),
-                        'price' => "Цена: " . $faker->numberBetween($min = 20, $max = 150) . " &euro; "
+                        'category' => $category['title'],
+                        'title' => $faker->name(),
+                        'price' => $faker->numberBetween($min = 20, $max = 150)
                     ];
             }
         }
         return $this->goods;
     }
 
-    protected function getCategories()
+    protected function getCategories(): array
     {
         $categoryName = [
             'Ноутбуки',
@@ -50,7 +50,7 @@ class Controller extends BaseController
             $this->categories[] =
                 [
                     'id' => $idCategory,
-                    'name' => $categoryName[$i]
+                    'title' => $categoryName[$i]
                 ];
         }
         return $this->categories;

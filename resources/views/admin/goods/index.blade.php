@@ -1,28 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
+@section('title')Список товаров - | @parent @stop
+@section('content')
+    <div class="container-fluid">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Panel</title>
-</head>
-
-<body>
-    <h1>Добро пожаловать в Админ Панель!</h1>
-    <a href="categories">Категории</a>
-    <a href="goods">Товары</a>
-    <a href="cart">Корзина</a>
-
-    <hr>
-    <h1>Список товаров</h1>
-
-    @foreach ($goodslist as $key => $goods)
-        <div class="">
-            <h2><a href="<?= route('goods.show', ['id' => ++$key]) ?>"><?= $goods['title'] ?></a></h2>
-            <p><?= $goods['price'] ?></p>
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Список товаров</h1>
+            <a href="{{ route('admin.goods.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Добавить товар</a>
         </div>
-    @endforeach
-</body>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Товары</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th width="200px">Название</th>
+                                <th>Цена</th>
+                                <th>Категория</th>
+                                <th>Дата добавления</th>
+                                <th>Управление</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($goodslist as $product)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $product['title'] }}</td>
+                                    <td>&euro; {{ $product['price'] }}</td>
+                                    <td>{{ $product['category'] }}</td>
+                                    <td>{{ now()->format('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-edit"></i>
+                                            </span>
+                                            <span class="text">Ред.</span>
+                                        </a>
+                                        &nbsp; &nbsp;
+                                        <a href="#" class="btn btn-danger btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-trash"></i>
+                                            </span>
+                                            <span class="text">Удалить</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
 
-</html>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@endsection

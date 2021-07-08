@@ -26,7 +26,7 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        //
+        return 'ok';
     }
 
     /**
@@ -59,7 +59,6 @@ class GoodsController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**

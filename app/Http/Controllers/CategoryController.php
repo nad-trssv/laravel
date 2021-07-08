@@ -19,7 +19,7 @@ class CategoryController extends Controller
         $goodsList = $this->getGoods();
 
         $categories = $this->getCategories();
-        $categoryName = $categories[$categoryID]['name'];
+        $categoryName = $categories[$categoryID]['title'];
 
         foreach ($goodsList as $key => $goods) {
             if ($goods['category'] == $categoryName) {

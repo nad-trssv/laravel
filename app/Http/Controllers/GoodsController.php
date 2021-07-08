@@ -16,11 +16,12 @@ class GoodsController extends Controller
     public function show(int $id)
     {
         $product = $this->getGoods();
-        $productid = $id - 1;
-        $productOne = $product[$productid];
+
+        $productOne = $product[$id];
 
         return view('goods.show', [
-            'productOne' => $productOne
+            'productOne' => $productOne,
+            'id' => $id
         ]);
     }
 }

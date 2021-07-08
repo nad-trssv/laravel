@@ -17,10 +17,10 @@
     <hr>
 
     <h1>Список Категорий</h1>
-    @foreach ($categoryList as $key => $category)
+    @foreach ($categoryList as $category)
         <nav>
             <ul>
-                <li><a href="<?= route('categories.show', ['id' => ++$key]) ?>"><?= $category['name'] ?></a></li>
+                <li><a href="<?= route('categories.show', ['id' => $loop->iteration]) ?>"><?= $category['title'] ?></a></li>
         </ul>
     </nav>
     @endforeach
