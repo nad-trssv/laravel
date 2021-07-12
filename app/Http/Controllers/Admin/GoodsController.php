@@ -26,7 +26,7 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        return 'ok';
+        return view('admin.goods.create');
     }
 
     /**
@@ -37,7 +37,12 @@ class GoodsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string']
+        ]);
+
+        $data = $request->only('title', 'default');
+        dd($request->all());
     }
 
     /**

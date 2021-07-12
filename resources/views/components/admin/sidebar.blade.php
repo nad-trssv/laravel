@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
         <div class="sidebar-brand-icon">
             <i class="fas fa-user-shield"></i>
         </div>
@@ -12,8 +12,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="index.html">
+    <li class="nav-item @if(request()->is('admin')) active @endif">
+        <a class="nav-link" href="/admin">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Панель управления</span></a>
     </li>
@@ -33,8 +33,8 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item active" href="{{ route('admin.goods.index') }}">Товары</a>
-                <a class="collapse-item" href="{{ route('admin.categories.index') }}">Категории</a>
+                <a class="collapse-item @if(request()->routeIs('admin.goods.index')) active @endif" href="{{ route('admin.goods.index') }}">Товары</a>
+                <a class="collapse-item @if(request()->routeIs('admin.categories.index')) active @endif" href="{{ route('admin.categories.index') }}">Категории</a>
             </div>
         </div>
     </li>
@@ -46,8 +46,8 @@
         </a>
         <div id="collapsePlus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('admin.goods.create') }}">Товар</a>
-                <a class="collapse-item" href="{{ route('admin.categories.create') }}">Категорию</a>
+                <a class="collapse-item @if(request()->routeIs('admin.goods.create')) active @endif" href="{{ route('admin.goods.create') }}">Товар</a>
+                <a class="collapse-item @if(request()->routeIs('admin.categories.create*')) active @endif" href="{{ route('admin.categories.create') }}">Категорию</a>
             </div>
         </div>
     </li>

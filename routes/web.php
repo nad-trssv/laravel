@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController as CategoryController;
 
 /** A D M I N  panel*/
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::view('/', 'admin.index');
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('goods', AdminGoodsController::class);
 });
