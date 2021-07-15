@@ -31,10 +31,12 @@
                             @forelse ($goodslist as $product)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $product['title'] }}</td>
-                                    <td>&euro; {{ $product['price'] }}</td>
-                                    <td>{{ $product['category'] }}</td>
-                                    <td>{{ now()->format('d-m-Y H:i') }}</td>
+                                    <td>{{ $product->title }}</td>
+                                    <td>&euro;&nbsp;{{ $product->price }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.categories.edit', ['category' => $product->category_id]) }}">{{ $product->categoryName }}</a>
+                                    </td>
+                                    <td>{{ $product->created_at }}</td>
                                     <td>
                                         <a href="#" class="btn btn-info btn-icon-split">
                                             <span class="icon text-white-50">

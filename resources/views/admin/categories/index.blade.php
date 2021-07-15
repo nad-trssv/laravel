@@ -30,10 +30,14 @@
                             @forelse ($categorylist as $category)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $category['title'] }}</td>
-                                    <td>{{ now()->format('d-m-Y H:i') }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-info btn-icon-split">
+                                        <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">
+                                            {{ $category->title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $category->created_at }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}" class="btn btn-info btn-icon-split">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-edit"></i>
                                             </span>

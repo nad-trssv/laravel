@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Goods;
 use Illuminate\Http\Request;
 
 class GoodsController extends Controller
@@ -14,8 +15,11 @@ class GoodsController extends Controller
      */
     public function index()
     {
+        $goodsModel = new Goods();
+        $goods = $goodsModel->getGoods();
+
         return view('admin.goods.index', [
-            'goodslist' => $this->getGoods()
+            'goodslist' => $goods
         ]);
     }
 

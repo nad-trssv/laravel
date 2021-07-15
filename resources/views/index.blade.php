@@ -14,7 +14,7 @@
                                 <div class="card-actions">
                                     <div class="badge badge-foodwagon bg-primary p-3">
                                         <div class="d-flex flex-between-center">
-                                            <div class="text-white fs-3">{{ $goods['price'] }}</div>
+                                            <div class="text-white fs-3">{{ $goods->price }}</div>
                                             <div class="d-block text-white fs-2">&euro;
                                             </div>
                                         </div>
@@ -22,10 +22,10 @@
                                 </div>
                             </div>
                             <div class="card-body px-0">
-                                <h5 class="fw-bold text-1000 text-truncate">{{ $goods['title'] }}</h5>
+                                <h5 class="fw-bold text-1000 text-truncate">{{ $goods->title }}</h5>
                                 <p class="btn border-danger text-danger">Добавить в корзину</p>
                              </div>
-                            <a class="stretched-link" href="{{ route('goods.show', ['id' => $loop->iteration]) }}"></a>
+                            <a class="stretched-link" href="{{ route('goods.show', ['id' => $goods->id ]) }}"></a>
                         </div>
                     </div>
                 @empty

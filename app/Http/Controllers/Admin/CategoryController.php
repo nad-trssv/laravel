@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,8 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $categoryModel = new Category();
+        $categories = $categoryModel->getCategories();
+        //dd($categoryModel->getCategoryById(1));
         return view('admin.categories.index', [
-            'categorylist' => $this->getCategories()
+            'categorylist' => $categories
         ]);
     }
 
@@ -61,9 +65,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        dd($category);
     }
 
     /**
