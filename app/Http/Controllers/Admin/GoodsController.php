@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Goods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class GoodsController extends Controller
 {
@@ -15,8 +17,7 @@ class GoodsController extends Controller
      */
     public function index()
     {
-        $goodsModel = new Goods();
-        $goods = $goodsModel->getGoods();
+        $goods = Goods::orderBy('id', 'desc')->get();
 
         return view('admin.goods.index', [
             'goodslist' => $goods
@@ -30,7 +31,11 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        return view('admin.goods.create');
+        $categories = Category::all();
+
+        return view('admin.goods.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -45,8 +50,16 @@ class GoodsController extends Controller
             'title' => ['required', 'string']
         ]);
 
-        $data = $request->only('title', 'default');
-        dd($request->all());
+        $data = $request->only(['category_id', 'title', 'price', 'status']);
+        $data['slug'] = Str::slug($data['title']);
+
+        $goods = Goods::create($data);
+
+        if ($goods) {
+            return redirect()->route('admin.goods.index')
+                ->with('success', 'Запись успешно создана');
+        }
+        return back()->with('error', 'Не удалось создать запись');
     }
 
     /**
@@ -66,8 +79,14 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Goods $good)
     {
+        $categories = Category::orderBy('id', 'desc')->get();
+
+        return view('admin.goods.edit', [
+            'good' => $good,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -77,9 +96,17 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Goods $good)
     {
-        //
+        $data = $request->only(['title', 'category_id', 'status', 'price', 'image']);
+        $data['slug'] = Str::slug($data['title']);
+        $statusGoods = $good->fill($data)->save();
+
+        if ($statusGoods) {
+            return redirect()->route('admin.goods.index')
+                ->with('success', 'Запись успешно обновлена');
+        }
+        return back()->with('error', 'Не удалось обновить запись');
     }
 
     /**
@@ -88,7 +115,7 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Goods $goods)
     {
         //
     }

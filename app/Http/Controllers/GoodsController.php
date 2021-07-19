@@ -9,20 +9,19 @@ class GoodsController extends Controller
 {
     public function index()
     {
-        $goodsModel = new Goods();
-        $goods = $goodsModel->getGoods();
+        $goods = Goods::with('category')
+            ->orderbY('id', 'desc')
+            ->paginate(8);
 
         return view('goods.index', [
             'goodslist' => $goods
         ]);
     }
 
-    public function show(int $id)
+    public function show(Goods $goods)
     {
-        $goodsModel = new Goods();
-        $productOne = $goodsModel->getGoodsById($id);
         return view('goods.show', [
-            'productOne' => $productOne
+            'productOne' => $goods
         ]);
     }
 }

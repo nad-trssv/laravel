@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Goods;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     public function index()
     {
+        $categories = Category::orderBy('id', 'desc')->get();
+
         return view('categories.index', [
-            'categoryList' => $this->getCategories()
+            'categoryList' => $categories
         ]);
     }
-    public function show(int $id)
+    public function show(Category $category)
     {
 
-        $categoryID = $id - 1;
-        $goodsList = $this->getGoods();
+        $categoryID = $category->id - 1;
+        $goodsList = Goods::all();
 
-        $categories = $this->getCategories();
-        $categoryName = $categories[$categoryID]['title'];
+        $categoryName = $category->title;
 
         foreach ($goodsList as $key => $goods) {
             if ($goods['category'] == $categoryName) {

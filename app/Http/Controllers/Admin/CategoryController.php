@@ -15,9 +15,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categoryModel = new Category();
-        $categories = $categoryModel->getCategories();
-        //dd($categoryModel->getCategoryById(1));
+        $categories = Category::with('goods')
+            //->whereHas('goods')
+            ->select(['id', 'title', 'description', 'color', 'updated_at'])
+            ->orderBy('id', 'desc')
+            ->offset(0)
+            ->limit(10)
+            ->get();
+
         return view('admin.categories.index', [
             'categorylist' => $categories
         ]);
@@ -41,11 +46,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
+        $category = Category::create(
+            $request->only(['title', 'description', 'color'])
+        );
 
-        dd($request->all());
+        if ($category) {
+            return redirect()->route('admin.categories.index')
+                ->with('success', 'Запись успешно создана');
+        }
+        return back()->with('error', 'Не удалось создать запись');
     }
 
     /**
@@ -67,7 +76,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        dd($category);
+        return view('admin.categories.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -77,9 +88,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $statusCategory = $category->fill(
+            $request->only(['title', 'description', 'color'])
+        )->save();
+
+        if ($statusCategory) {
+            return redirect()->route('admin.categories.index')
+                ->with('success', 'Запись успешно обновлена');
+        }
+        return back()->with('error', 'Не удалось обновить запись');
     }
 
     /**
@@ -88,7 +107,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         //
     }

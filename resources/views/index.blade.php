@@ -6,11 +6,10 @@
         <div class="container">
             <div class="row gx-2 mt-7">
                 @forelse ($goodslist as $goods)
-                    @break($loop->iteration > 8)
                     <div class="col-sm-6 col-lg-3 mb-3 mb-md-0 h-100 pb-4">
                         <div class="card card-span h-100">
-                            <div class="position-relative"> 
-                                <img class="img-fluid rounded-3 w-100" src="{{ asset('assets/img/gallery/discount-item-1.png') }}" alt="product" />
+                            <div class="position-relative block_img__product"> 
+                                <img class="img-fluid rounded-3 w-100" src="{{ asset('assets/img/gallery/'.$goods->image) }}"  onerror="this.onerror=null; this.src='assets/img/gallery/discount-item-1.png'" alt="product" />
                                 <div class="card-actions">
                                     <div class="badge badge-foodwagon bg-primary p-3">
                                         <div class="d-flex flex-between-center">
@@ -25,7 +24,7 @@
                                 <h5 class="fw-bold text-1000 text-truncate">{{ $goods->title }}</h5>
                                 <p class="btn border-danger text-danger">Добавить в корзину</p>
                              </div>
-                            <a class="stretched-link" href="{{ route('goods.show', ['id' => $goods->id ]) }}"></a>
+                            <a class="stretched-link" href="{{ route('goods.show', ['goods' => $goods ]) }}"></a>
                         </div>
                     </div>
                 @empty

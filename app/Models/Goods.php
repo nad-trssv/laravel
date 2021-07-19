@@ -3,24 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Goods extends Model
 {
     protected $table = 'goods';
 
-    public function getGoods()
-    {
-        return \DB::table($this->table)
-            ->join('categories', 'category_id', '=', 'categories.id')
-            ->select(['goods.*', 'categories.title as categoryName'])
-            ->orderByDesc('goods.id')
-            ->get();
-    }
+    protected $fillable = [
+        'category_id',
+        'title',
+        'image',
+        'slug',
+        'price',
+        'status'
+    ];
 
-    public function getGoodsById(int $id)
+    public function category(): BelongsTo
     {
-        return \DB::table($this->table)
-            ->find($id);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

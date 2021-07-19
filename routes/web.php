@@ -22,14 +22,23 @@ Route::get('/', [IndexController::class, 'index'])
 
 Route::get('/goods', [GoodsController::class, 'index'])
     ->name('/goods');
-Route::get('/goods/show/{id}', [GoodsController::class, 'show'])
-    ->where('id', '\d+')
+Route::get('/goods/{goods}', [GoodsController::class, 'show'])
+    ->where('goods', '\d+')
     ->name('goods.show');
+
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('/categories');
-Route::get('/cart', function () {
-    return '<a href="/">Главная</a> <br> Корзина пуста';
-});
 Route::get('categories/show/{id}', [CategoryController::class, 'show'])
     ->where('id', '\d+')
     ->name('categories.show');
+
+Route::get('/cart', function () {
+    return '<a href="/">Главная</a> <br> Корзина пуста';
+});
+
+Route::get('collections', function () {
+    $collections = collect([
+        1, 2, 3, 45, 67, 8, 9, 54, 67
+    ]);
+    dd($collections->chunk(3));
+});

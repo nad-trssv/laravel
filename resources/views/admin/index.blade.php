@@ -10,7 +10,6 @@
                 <i class="fas fa-arrow-left fa-sm text-white-50"></i> Мои товары</a>
         </div>
         <!-- DataTales Example -->
-
     </div>
 
 @endsection

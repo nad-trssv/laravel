@@ -10,15 +10,12 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $categoryModel = new Category();
-        $categories = $categoryModel->getCategories();
-
-        $goodsModel = new Goods();
-        $goods = $goodsModel->getGoods();
+        $goods = Goods::orderBy('id', 'desc')
+            ->take(8)
+            ->get();
 
         return view('index', [
-            'goodslist' => $goods,
-            'categorylist' => $categories
+            'goodslist' => $goods
         ]);
     }
 }

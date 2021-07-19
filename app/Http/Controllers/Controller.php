@@ -14,45 +14,4 @@ class Controller extends BaseController
 
     protected array $goods;
     protected array $categories;
-
-    protected function getGoods(): array
-    {
-        $this->getCategories();
-        $faker = Factory::create('en_EN');
-        $categoryList = $this->categories;
-
-        foreach ($categoryList as $category) {
-            for ($i = 0; $i < 4; $i++) {
-                $idGoods = $i + 1;
-                $this->goods[] =
-                    [
-                        'id' => $idGoods,
-                        'category' => $category['title'],
-                        'title' => $faker->name(),
-                        'price' => $faker->numberBetween($min = 20, $max = 150)
-                    ];
-            }
-        }
-        return $this->goods;
-    }
-
-    protected function getCategories(): array
-    {
-        $categoryName = [
-            'Ноутбуки',
-            'Мониторы, персональные компьютеры',
-            'Наушники, микрофоны и компьютерные динамики',
-            'Периферийные устройства и программное обеспечение',
-            'Принтеры и сканеры'
-        ];
-        for ($i = 0; $i < 5; $i++) {
-            $idCategory = $i + 1;
-            $this->categories[] =
-                [
-                    'id' => $idCategory,
-                    'title' => $categoryName[$i]
-                ];
-        }
-        return $this->categories;
-    }
 }
