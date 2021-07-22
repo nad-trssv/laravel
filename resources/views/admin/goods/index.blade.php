@@ -50,7 +50,7 @@
                                             <span class="text">Ред.</span>
                                         </a>
                                         &nbsp; &nbsp;
-                                        <a href="#" class="btn btn-danger btn-icon-split">
+                                        <a href="#" data-toggle="modal" data-target="#deleteModal{{ $goods->id }}" rel="{{ $goods->id }}" class="deleteProduct btn btn-danger btn-icon-split">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
                                             </span>
@@ -58,6 +58,26 @@
                                         </a>
                                     </td>
                                 </tr>
+
+                                <!-- delete product Modal-->
+                                <div class="modal fade" id="deleteModal{{ $goods->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Удалить товар?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Выбирая кнопку "Удалить" вы подтверждаете удаление товара.</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
+                                                <a class="delete btn btn-primary" href="javascript:;" rel="{{ $goods->id }}">Удалить {{$goods->title}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @empty
 
                             @endforelse
@@ -70,3 +90,22 @@
     </div>
 
 @endsection
+@push('js')
+<script>
+    $(function (){
+        $(".delete").on('click', function() {
+            let id = $(this).attr('rel');
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'DELETE',
+                    url: '/admin/goods/' + id,
+                    complete: function () {
+                        location.reload();
+                    }
+                })
+        })
+    });
+</script>
+@endpush

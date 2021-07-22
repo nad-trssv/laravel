@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStore;
+use App\Http\Requests\CategoryUpdate;
 use App\Models\Category;
+use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -19,8 +22,6 @@ class CategoryController extends Controller
             //->whereHas('goods')
             ->select(['id', 'title', 'description', 'color', 'updated_at'])
             ->orderBy('id', 'desc')
-            ->offset(0)
-            ->limit(10)
             ->get();
 
         return view('admin.categories.index', [
@@ -44,17 +45,17 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStore $request)
     {
-        $category = Category::create(
-            $request->only(['title', 'description', 'color'])
-        );
+        $data = $request->validated();
 
-        if ($category) {
+        $statusCategory = Category::create($data);
+
+        if ($statusCategory) {
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Запись успешно создана');
+                ->with('success', __('message.admin.category.created.success'));
         }
-        return back()->with('error', 'Не удалось создать запись');
+        return back()->with('error', __('admin.category.created.fail'));
     }
 
     /**
@@ -88,17 +89,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdate $request, Category $category)
     {
         $statusCategory = $category->fill(
-            $request->only(['title', 'description', 'color'])
+            $request->validated()
         )->save();
 
         if ($statusCategory) {
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', __('message.admin.category.updated.success'));
         }
-        return back()->with('error', 'Не удалось обновить запись');
+        return back()->with('error', __('message.admin.category.updated.fail'));
     }
 
     /**
@@ -107,8 +108,24 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $model = Category::with('goods')
+            ->find($id);
+        $hasProducts = $model->goods; // Проверка на то, есть ли в категории товары
+
+        if ((isset($hasProducts[0]))) {
+            return redirect()->route('admin.categories.index')
+                ->with('error', 'В категории есть товары! Удалить категорию невозможно.');
+        } else {
+            $statusDelete = $model->delete();
+
+            if ($statusDelete) {
+                return redirect()->route('admin.categories.index')
+                    ->with('success', __('message.admin.category.deleted.success'));
+            }
+            return redirect()->route('admin.categories.index')
+                ->with('error', __('message.admin.category.deleted.fail'));
+        }
     }
 }

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="wwweb lama | WL">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title> @section('title') GbAdmin @show</title>
 
@@ -57,6 +58,7 @@
         </div>
     </div>
 
+    
     <!-- Bootstrap core JavaScript-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
@@ -65,9 +67,9 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
+    <!-- JQuery-->
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    @stack('js')
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/admin/js/admin.min.js') }}"></script>
 
@@ -77,7 +79,6 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/admin/js/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/admin/js/chart-pie-demo.js') }}"></script>
-
 </body>
 
 </html>

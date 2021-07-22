@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GoodsStore;
+use App\Http\Requests\GoodsUpdate;
 use App\Models\Category;
 use App\Models\Goods;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class GoodsController extends Controller
 {
@@ -44,22 +48,18 @@ class GoodsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GoodsStore $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-
-        $data = $request->only(['category_id', 'title', 'price', 'status']);
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
 
         $goods = Goods::create($data);
 
         if ($goods) {
             return redirect()->route('admin.goods.index')
-                ->with('success', 'Запись успешно создана');
+                ->with('success', __('message.admin.goods.created.success'));
         }
-        return back()->with('error', 'Не удалось создать запись');
+        return back()->with('error', __('admin.goods.created.fail'));
     }
 
     /**
@@ -96,27 +96,35 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Goods $good)
+    public function update(GoodsUpdate $request, Goods $good)
     {
-        $data = $request->only(['title', 'category_id', 'status', 'price', 'image']);
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
         $statusGoods = $good->fill($data)->save();
 
         if ($statusGoods) {
             return redirect()->route('admin.goods.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', __('message.admin.goods.updated.success'));
         }
-        return back()->with('error', 'Не удалось обновить запись');
+        return back()->with('error', __('message.admin.goods.updated.fail'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Goods $goods
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Goods $goods)
+    public function destroy($id)
     {
-        //
+        $model = Goods::find($id);
+        $statusDelete = $model->delete();
+
+        if ($statusDelete) {
+            return redirect()->route('admin.goods.index')
+                ->with('success', __('message.admin.goods.deleted.success'));
+        }
+        return redirect()->route('admin.goods.index')
+            ->with('error', __('message.admin.goods.deleted.fail'));
     }
 }
