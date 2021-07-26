@@ -5,18 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\GoodsController as AdminGoodsController;
-use App\Http\Controllers\IndexController as IndexController;
+use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\GoodsController as GoodsController;
 use App\Http\Controllers\CategoryController as CategoryController;
+use Illuminate\Support\Facades\Auth;
 
-/** A D M I N  panel*/
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::view('/', 'admin.index');
-    Route::resource('categories', AdminCategoryController::class);
-    Route::resource('goods', AdminGoodsController::class);
-});
-
-
+//site
 Route::get('/', [IndexController::class, 'index'])
     ->name('/');
 
@@ -36,9 +30,29 @@ Route::get('/cart', function () {
     return '<a href="/">Главная</a> <br> Корзина пуста';
 });
 
-Route::get('collections', function () {
-    $collections = collect([
-        1, 2, 3, 45, 67, 8, 9, 54, 67
-    ]);
-    dd($collections->chunk(3));
+Route::get('session', function () {
+    session(['newSession' => 'newValue']);
+    if (session()->has('newSession')) {
+        session()->remove('newSession');
+    }
+    return "no sessions ";
 });
+
+//backoffice
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', AccountController::class);
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->route('login');
+    })->name('logout');
+
+    //admin
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
+        Route::view('/', 'admin.index')->name('index');
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('goods', AdminGoodsController::class);
+    });
+});
+
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
