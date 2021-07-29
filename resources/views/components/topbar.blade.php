@@ -17,8 +17,8 @@
                     <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food"
                         aria-label="Search" />
                 </div>
-                <button class="btn btn-white shadow-warning text-warning" type="submit"> <i
-                        class="fas fa-user me-2"></i>Login</button>
+                <a href="{{ route('login') }}" class="btn btn-white shadow-warning text-warning" type="submit"> <i
+                        class="fas fa-user me-2"></i>{{ __('Вход') }}</a>
             </form>
         </div>
     </div>

@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\GoodsController as AdminGoodsController;
 use App\Http\Controllers\Account\IndexController as AccountController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\GoodsController as GoodsController;
 use App\Http\Controllers\CategoryController as CategoryController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Auth;
 
 //site
@@ -40,7 +43,8 @@ Route::get('session', function () {
 
 //backoffice
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/account', AccountController::class);
+    Route::get('/account', AccountController::class)
+        ->name('account');
     Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route('login');
@@ -51,7 +55,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::view('/', 'admin.index')->name('index');
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('goods', AdminGoodsController::class);
+
+        Route::get('/parse', ParserController::class);
     });
+});
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/init/{driver?}', [SocialController::class, 'init'])
+        ->name('social.init');
+    Route::get('/callback/{driver?}', [SocialController::class, 'callback'])
+        ->name('social.callback');
 });
 
 Auth::routes();

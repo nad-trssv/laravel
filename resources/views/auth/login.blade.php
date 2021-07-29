@@ -8,6 +8,16 @@
                 <div class="card-header">{{ __('Вход') }}</div>
 
                 <div class="card-body">
+                    <div class="text-center mb-4">
+                        <p>Авторизоваться с помощью: </p> 
+                        <a href="{{ route('social.init', ['driver' => 'vkontakte']) }}">
+                            <img src="{{ asset('assets/img/icons/vk.png') }}" width="50px" alt="">
+                        </a>
+                        <a href="{{ route('social.init', ['driver' => 'google']) }}">
+                            <img src="{{ asset('assets/img/icons/google.png') }}" width="50px" alt="">
+                        </a>
+                    </div>
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -43,7 +53,6 @@
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
                                     <label class="form-check-label" for="remember">
                                         {{ __('Запомнить меня') }}
                                     </label>
