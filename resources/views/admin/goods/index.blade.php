@@ -25,6 +25,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th width="50px">Image</th>
                                 <th width="200px">Название</th>
                                 <th>Цена</th>
                                 <th>Статус</th>
@@ -36,6 +37,7 @@
                             @forelse ($goodslist as $goods)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
+                                    <td class="p-0 pt-2"><img src="{{ Storage::disk('public')->url($goods->image) }}" width="100%;" onerror="this.onerror=null; this.src='{{ asset('assets/img/noimage.jpg') }}'" alt="{{ $goods->title }}"></td>
                                     <td>{{ $goods->title }}</td>
                                     <td>&euro;&nbsp;{{ $goods->price }}</td>
                                     <td>

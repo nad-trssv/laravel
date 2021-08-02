@@ -69,7 +69,6 @@
 
     <!-- JQuery-->
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    @stack('js')
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/admin/js/admin.min.js') }}"></script>
 
@@ -79,6 +78,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/admin/js/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/admin/js/chart-pie-demo.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+    @stack('js')
 </body>
 
 </html>

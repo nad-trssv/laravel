@@ -24,7 +24,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <form action="{{ route('admin.goods.update', ['good' => $good] ) }}" method="post">
+                    <form  method="post" action="{{ route('admin.goods.update', ['good' => $good] ) }}" enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="form-group">
@@ -43,10 +43,6 @@
                             <input type="text" class="form-control" name="title" id="title" value="{{ $good->title }}">
                         </div>
                         <div class="form-group">
-                            <label for="image">Изображение:</label>
-                            <input type="file" class="form-control" name="image" id="image">
-                        </div><br>
-                        <div class="form-group">
                             <label for="status">Статус:</label>
                             <select name="status" id="status" class="form-control">
                                 <option @if( $good->status == 'DRAFT') selected @endif>DRAFT</option>
@@ -57,7 +53,19 @@
                         <div class="form-group">
                             <label for="price">Цена:</label>
                             <input type="text" class="form-control" name="price" id="price" value="{{ $good->price }}">
-                        </div>
+                        </div><br>
+                        <div class="form-group">
+                            <label for="description">Описание</label>
+                            <textarea class="form-control" id="description" name="description">{!! $good->description !!}</textarea>
+                        </div><br>
+                        <div class="form-group">
+                            <label for="image">Изображение:</label>
+                            <input type="file" class="form-control" name="image" id="image">
+                            <a href="{{ Storage::disk('public')->url($good->image) }}" target="_blank" class="cart_product">
+                                <img src="{{ Storage::disk('public')->url($good->image) }}" style="width: 250px;" onerror="this.onerror=null; this.src='{{ asset('assets/img/noimage.jpg') }}'" class="mt-4" alt="{{ $good->title }}">
+                            </a>
+                        </div><br>
+
                         <button type="submit" class="btn btn-primary">Сохранить</button>
                     </form>
                 </div>
@@ -67,3 +75,16 @@
     </div>
 
 @endsection
+
+@push('js')
+    <script>
+    ClassicEditor
+        .create( document.querySelector( '#description' ) )
+        .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+    </script>
+@endpush

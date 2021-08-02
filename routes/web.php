@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //admin
     Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
+        Route::group(['prefix' => 'filemanager'], function () {
+            \UniSharp\LaravelFilemanager\Lfm::routes();
+        });
         Route::view('/', 'admin.index')->name('index');
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('goods', AdminGoodsController::class);

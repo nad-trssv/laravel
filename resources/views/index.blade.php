@@ -9,7 +9,7 @@
                     <div class="col-sm-6 col-lg-3 mb-3 mb-md-0 h-100 pb-4">
                         <div class="card card-span h-100">
                             <div class="position-relative block_img__product"> 
-                                <img class="img-fluid rounded-3 w-100" src="{{ asset('assets/img/gallery/'.$goods->image) }}"  onerror="this.onerror=null; this.src='assets/img/gallery/discount-item-1.png'" alt="product" />
+                                <img class="img-fluid rounded-3 w-100" src="{{ Storage::disk('public')->url($goods->image) }}"  onerror="this.onerror=null; this.src='{{ asset('assets/img/noimage.jpg') }}'" alt="product" />
                                 <div class="card-actions">
                                     <div class="badge badge-foodwagon bg-primary p-3">
                                         <div class="d-flex flex-between-center">

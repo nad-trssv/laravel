@@ -53,6 +53,16 @@ class GoodsController extends Controller
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = md5($file->getClientOriginalName() . time());
+            $fileExt = $file->getClientOriginalExtension();
+
+            $newFileName = $fileName . "." . $fileExt;
+
+            $data['image'] = $file->storeAs('goods', $newFileName, 'public');
+        }
+
         $goods = Goods::create($data);
 
         if ($goods) {
@@ -100,6 +110,17 @@ class GoodsController extends Controller
     {
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = md5($file->getClientOriginalName() . time());
+            $fileExt = $file->getClientOriginalExtension();
+
+            $newFileName = $fileName . "." . $fileExt;
+
+            $data['image'] = $file->storeAs('goods', $newFileName, 'public');
+        }
+
         $statusGoods = $good->fill($data)->save();
 
         if ($statusGoods) {

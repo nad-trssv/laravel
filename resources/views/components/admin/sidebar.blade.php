@@ -53,6 +53,16 @@
     </li>
 
     <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item @if(request()->is('filemanager')) active @endif">
+        <a class="nav-link" href="/admin/filemanager">
+            <i class="fas fa-fw fa-inbox"></i>
+            <span>Мой диск</span></a>
+    </li>
+
+    <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->

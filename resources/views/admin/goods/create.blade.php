@@ -26,7 +26,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <form action="{{ route('admin.goods.store') }}" method="post">
+                    <form action="{{ route('admin.goods.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="category_id">Категория:</label>
@@ -59,6 +59,10 @@
                             <label for="price">Цена:</label>
                             <input type="text" class="form-control" name="price" id="price" value="{{ old('price') }}">
                         </div>
+                        <div class="form-group">
+                            <label for="description">Описание:</label>
+                            <input type="text" class="form-control" name="description" id="description" value="{{ old('description') }}">
+                        </div><br>
                         <button type="submit" class="btn btn-primary">Добавить</button>
                     </form>
                 </div>

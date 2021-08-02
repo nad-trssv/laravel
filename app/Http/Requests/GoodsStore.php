@@ -28,7 +28,8 @@ class GoodsStore extends FormRequest
             'category_id' => ['required', 'integer', 'min:1'],
             'status' => ['required'],
             'image' => ['sometimes'],
-            'price' => ['required']
+            'price' => ['required'],
+            'description' => ['sometimes']
         ];
     }
 

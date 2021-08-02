@@ -31,4 +31,15 @@ class ParserService implements Parser
 
         return $data;
     }
+
+    public function saveGoodsInFile(string $url): void
+    {
+        $parsedList = $this->getParsedList($url);
+        $serialize = json_encode($parsedList);
+
+        $explode = explode("/", $url);
+        $fileName = end($explode);
+
+        \Storage::append('/goods/' . $fileName, $serialize);
+    }
 }
